@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Boom</title>
+  <style type="text/css">
+    #game-screen{
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id = "game-screen" width = "800px" height = "500px"></canvas>
+  <script>
+    class Wall {
+
+      constructor(x = 0, y = 0){
+        this.img = new Image()
+        this.img.src = 'brick.png'
+        this.positionX = x
+        this.positionY = y
+        this.width = 25
+        this.height = 25
+      }
+    }
+
+    //怪物类，吃豆人中的怪物
+    class Monster {
+
+      constructor(x = 200, y = 200){
+        this.img = new Image()
+        this.img.src = 'qq.png'
+        this.positionX = x
+        this.positionY = y
+        this.width = 20 
+        this.height = 25
+        this.speech = 3
+        this.direction = {
+          'top': true,
+          'bottom': false,
+          'left': false,
+          'right': false
+        }
+      }
+
+      //怪兽的每一帧的运动方法，目前的设定要遵守的逻辑是：1.怪兽不会180度转向；2.怪兽不能撞墙；3.当怪兽遇到多个可运动方向时，随机选择一个方向移动；4.怪兽只有四个移动方向，分别是上下左右；
+      move(map){
+
+        //进行下一帧的运动判定时先判定逻辑1，即怪兽不能进行180转向，在这里将怪兽上一帧运动方向的反方向设为false，即怪兽这一帧不能向该方向运动
+        if (this.direction.top) {
+          this.direction.left = true
+          this.direction.right = true
+        } else if (this.direction.bottom) {
+          this.direction.left = true 
+          this.direction.right = true 
+        } else if (this.direction.right) {
+          this.direction.top = true 
+          this.direction.bottom = true  
+        } else if (this.direction.left) {
+          this.direction.top = true 
+          this.direction.bottom = true 
+        }
+
+        //这一段的作用是判定逻辑2，使用一个数组moveDireciton来存储怪兽下一帧可运行的方向，这里的判定方法是在各个方向上加上速度获得怪兽下一帧往这一方向运动的位置，将位置参数与map数组即地图参数比较，若该位置有墙壁即说明不可向该方向运动
+        var moveDirection = []
+        for (let key in this.direction) {
+          if (this.direction[key]) {
+            switch(key) {
+              case 'top': if (map[this.positionX][this.positionY - this.speech] && map[this.positionX + this.width][this.positionY - this.speech]){}else{
+                this.direction[key] = false
+              }; break;
+              case 'bottom': if (map[this.positionX][this.positionY + this.height + this.speech] && map[this.positionX + this.width][this.positionY + this.height + this.speech]){}else{
+                this.direction[key] = false
+              }; break;
+              case 'right': if (map[this.positionX + this.width + this.speech][this.positionY] && map[this.positionX + this.width + this.speech][this.positionY + this.height]){}else{
+                this.direction[key] = false
+              }; break;
+              case 'left' : if (map[this.positionX - this.speech][this.positionY] && map[this.positionX - this.speech][this.positionY + this.height]){}else{
+                this.direction[key] = false
+              }; break;
+            }
+          }
+          if (this.direction[key]) {
+            moveDirection.push(key)
+          }
+        }
+
+        //将剩下可运动的方向进行一个随机选择，获得下一帧怪兽运动的方向
+        if (moveDirection.length > 1) {
+          for (let i = 0; i < moveDirection.length; i++){
+            this.direction[moveDirection[i]] = false
+          }
+          var randomDirection = Math.floor(Math.random() * moveDirection.length + 0)
+          this.direction[moveDirection[randomDirection]] = true
+        }
+
+        //根据刚刚获得的运动方向和怪兽的速度计算出怪兽下一帧的位置
+        switch(moveDirection[randomDirection]){
+          case 'top': this.positionY = this.positionY - this.speech; break;
+          case 'bottom': this.positionY = this.positionY + this.speech; break;
+          case 'left': this.positionX = this.positionX - this.speech; break;
+          case 'right': this.positionX = this.positionX + this.speech; break;
+        }
+
+      }
+
+    }
+
+    //生成所有的墙单位，暂时没有设置好地图，用这个随便生成一个
+    function createWallLish() {
+      var wallList = []
+
+      for (let i = 0; i < 32; i++){
+        let newWall = new Wall(i * 25) 
+        wallList.push(newWall)
+      }
+      for (let i = 0; i < 32; i++){
+        let newWall = new Wall(i * 25, 475)
+        wallList.push(newWall)
+      }
+  
+      for (let i = 1; i < 19; i++){
+        let newWall = new Wall(0, i*25)
+        wallList.push(newWall)
+      }
+
+      return wallList
+    }
+
+    function createMap(wallList){
+      //创造一个二维数组描述整个canvas的所有像素点，初始值设为true即该点无任何对象
+      var map = new Array
+      for (let i = 0; i < 800; i++){
+        map[i] = new Array
+        for (let j = 0; j < 500; j++){
+          map[i][j] = true
+        }
+      }
+
+      //遍历所有的墙对象，在map二维数组中将每个墙对象的占据的像素点赋值为false，即该点存在对象必须考虑可否通过的问题
+      for (let i = 0; i < wallList.length; i++){
+        for (let j = wallList[i].positionX; j < (wallList[i].positionX + wallList[i].width ); j++){
+
+          for (let k = wallList[i].positionY; k < (wallList[i].positionY + wallList[i].height ); k++){
+
+            map[j][k] = false 
+          } 
+        }
+      }
+
+      return map
+    }
+
+    class Game{
+
+      constructor(){
+        this.keyBoard = {}
+        this.action = {}
+        var that = this
+        window.addEventListener('keydown',function(event){
+          that.keyBoard[event.key] = true
+        })
+        window.addEventListener('keyup',function(event){
+          that.keyBoard[event.key] = false
+        })
+      }
+
+      //注册按键事件
+      registerAction(keyword,callback){
+        this.action[keyword]=callback
+      }
+
+      refresh(ctx,wallList,map,screen){
+        console.log('go')
+        var monster = new Monster
+        setInterval(function(){
+          ctx.clearRect(0,0,screen.width,screen.height)
+          for (let i = 0; i < wallList.length; i++){
+            ctx.drawImage(wallList[i].img,wallList[i].positionX,wallList[i].positionY,wallList[i].width,wallList[i].height)
+          }
+          monster.move(map)
+          ctx.drawImage(monster.img,monster.positionX,monster.positionY,monster.width,monster.height)
+        },1000/60)
+      }
+    }
+
+    function __main(){
+      const screen = document.getElementById('game-screen')
+      const ctx = screen.getContext('2d')
+      ctx.fillStyle = '#ff0000'
+      ctx.fillRect(0, 0, 25, 25)
+      var game = new Game
+      var wallList = createWallLish()
+      var map = createMap(wallList) 
+
+      game.refresh(ctx, wallList, map, screen)
+    }
+
+    __main()
+  </script>
+</body>
+</html>
