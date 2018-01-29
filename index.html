@@ -14,7 +14,7 @@
 
     #game-background{
     	position: absolute;
-    	z-index: 100;
+    	z-index: -100;
     	top: 0;
     	left: 0;
     }
@@ -25,6 +25,8 @@
   <script src = "js/createmap.js"></script>
   <script src = "js/wall.js"></script>
   <script src = "js/monster.js"></script>
+  <script src = "js/bean.js"></script>
+  <script src = "js/scene_end.js"></script>
 </head>
 
 <body>
@@ -133,6 +135,7 @@
         monster: 'img/qq.png',
         pacMan: 'img/ball.png',
         wall: 'img/brick.png',
+        bean: 'img/bean.png'
       }
       var game = new Game
       game.gameStart(images)

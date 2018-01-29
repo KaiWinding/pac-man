@@ -17,29 +17,40 @@ function createMap(wallList){
 //生成所有的墙单位，暂时没有地图编辑器，手撸了一个地图
 function createWallLish(g) {
   var wallList = []
-  for (let i = 0; i < 32; i++){
+  var diamondsMap = []
+  for (let i = 0; i < 22; i++){
+    diamondsMap[i] = new Array
+    for (let j = 0; j < 18; j++){
+      diamondsMap[i][j] = 2
+    }
+  }
+  for (let i = 0; i < 22; i++){
     let newWall = new Wall(g.images.wall, i * 25) 
     wallList.push(newWall)
+    diamondsMap[i][0] = 1
   }
-  for (let i = 0; i < 32; i++){
-    let newWall = new Wall(g.images.wall, i * 25, 475)
-    wallList.push(newWall)
-  }
+  //for (let i = 0; i < 32; i++){
+  //  let newWall = new Wall(g.images.wall, i * 25, 475)
+  //  wallList.push(newWall)
+  //}
   for (let i = 1; i < 19; i++){
     let newWall = new Wall(g.images.wall, 0, i*25)
     wallList.push(newWall)
+    diamondsMap[0][i] = 1
   }
-  for (let i = 1; i < 19; i++){
-    let newWall = new Wall(g.images.wall, 775 ,i*25)
-    wallList.push(newWall)
-  }
+  //for (let i = 1; i < 19; i++){
+  //  let newWall = new Wall(g.images.wall, 775 ,i*25)
+  //  wallList.push(newWall)
+  //}
   for (let i = 1; i < 19; i++){
     let newWall = new Wall(g.images.wall, 21 * 25, i*25)
     wallList.push(newWall)
+    diamondsMap[21][i] = 1
   }
   for (let i = 1; i < 21; i++){
     let newWall = new Wall(g.images.wall, i * 25, 18 * 25)
     wallList.push(newWall)
+    diamondsMap[i][18] = 1
   }
   var diyWall = [ 
     [4,1], [8,1], [14,1],
@@ -64,6 +75,45 @@ function createWallLish(g) {
   for (let i = 0; i < diyWall.length; i++) {
     let newWall = new Wall(g.images.wall, diyWall[i][0] * 25, diyWall[i][1] * 25)
     wallList.push(newWall)
+    diamondsMap[diyWall[i][0]][diyWall[i][1]] = 1
   }
-  return wallList
+  diamondsMap[11][9] = 1
+  diamondsMap[12][9] = 1
+  diamondsMap[9][1] = 1
+  diamondsMap[10][1] = 1
+  diamondsMap[11][1] = 1
+  diamondsMap[12][1] = 1
+  diamondsMap[13][1] = 1 
+  diamondsMap[9][2] = 1
+  diamondsMap[10][2] = 1
+  diamondsMap[11][2] = 1
+  diamondsMap[12][2] = 1
+  diamondsMap[13][2] = 1
+  diamondsMap[9][17] = 1
+  diamondsMap[10][17] = 1
+  diamondsMap[11][17] = 1
+  diamondsMap[12][17] = 1
+  diamondsMap[13][17] = 1  
+  diamondsMap[9][16] = 1
+  diamondsMap[10][16] = 1
+  diamondsMap[11][16] = 1
+  diamondsMap[12][16] = 1
+  diamondsMap[13][16] = 1 
+  return { wallList, diamondsMap}
+}
+//建立一个21*18的数组作为方块图
+//0为无物品
+//1为格子上有墙壁
+//2为格子上有豆子
+
+function createBeanList(map, pic) {
+  var beanList = []
+  for (let i = 0; i < map.length; i++) {
+    for (let j = 0; j <map[i].length; j++) {
+      if (map[i][j] == 2) {
+        beanList.push(new Bean(pic, i * 25 + 10, j * 25 + 10))
+      }
+    }
+  }
+  return beanList
 }
