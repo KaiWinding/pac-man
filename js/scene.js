@@ -21,6 +21,7 @@ class Scene {
 
 	//注册该场景的按键控制到game
 	__initialize(scene,g) {
+		scene.time = 0
     this.game.registerAction('a', function(){
       scene.pacMan.move(scene.map, 'left')
     })
@@ -73,14 +74,19 @@ class Scene {
     		this.game.scene = new SceneEnd(this.game, true)
     	}
     }
-
-    for (let i = 0; i < this.monsterList.length; i++) {
-    	this.monsterList[i].move(this.map)
-    	this.drawImage(this.game.ctx, this.monsterList[i])
-    	//if (isCrashed(this.monsterList[i], this.pacMan)) {
-    	//	this.game.scene = new SceneEnd(this.game, false)
-    	//	break
-    	//}
+    if (this.beanNumber !== 0) {
+    	//怪物的移动速度
+    	var monsterSpeech = 3
+    	for (let i = 0; i < this.monsterList.length; i++) {
+    		for (let j = 0; j < monsterSpeech; j++) {
+    			this.monsterList[i].move(this.map)
+    		}
+    		this.drawImage(this.game.ctx, this.monsterList[i])
+    		if (isCrashed(this.monsterList[i], this.pacMan)) {
+    			this.game.scene = new SceneEnd(this.game, false)
+    			break 
+    		}
+    	}
     }
 	}
 }

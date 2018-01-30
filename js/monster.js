@@ -6,9 +6,9 @@
         //this.img.src = 'qq.png'
         this.positionX = x
         this.positionY = y
-        this.width = 20 
-        this.height = 23
-        this.speech = 5
+        this.width = 24 
+        this.height = 24
+        this.speech = 1
         this.direction = {
           'top': false,
           'bottom': false,
