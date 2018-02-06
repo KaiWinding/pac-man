@@ -40,20 +40,46 @@ class Scene {
 	}
 
 	drawImage(canvas, img) {
-		canvas.drawImage(img.img, img.positionX, img.positionY, img.width, img.height)
-	}
+    try {
+		  canvas.drawImage(img.img, img.positionX, img.positionY, img.width, img.height)
+	  } catch(error) {
+      console.log(img)
+      console.log(img.img)
+    }
+  }
+
+  drawPacMan(canvas, img, time) {
+    let changeTime = 30 
+    if (time % 5 == 0) {
+      if (img.state == 1) {
+        img.state = 0
+      } else {
+        img.state = 1
+      }
+    }
+    try {
+      canvas.drawImage(img.img[img.state], img.positionX, img.positionY, img.width, img.height)
+    } catch(error) {
+      console.log(img)
+      console.log(img.img)
+    }
+  }
 
 	upDate() {
-    this.time++
-    if (this.time == 1) {
+    //第一次进入游戏，在背景canvas上画出迷宫图
+    if (this.time == 0) {
+      this.game.backgroundCtx.fillStyle = "#00008B";
+      this.game.backgroundCtx.fillRect (0, 0, 550, 475);
     	for (let i = 0; i < this.wallList.length; i++) {
     	  this.drawImage(this.game.backgroundCtx, this.wallList[i])
       }   
        for (let i = 0; i < this.beanList.length; i++) {
     		this.drawImage(this.game.backgroundCtx, this.beanList[i])
     	}
-    } 
 
+    } 
+    this.time++
+    //游戏开始50time后，门关闭，增加门图片（只执行一次）
     if ((this.time > 50) && (!this.closeDoor)) {
       let door = new Wall(this.game.images.wall, 12 * 25, 9 * 25)
       this.closeDoor = true
@@ -62,13 +88,15 @@ class Scene {
     } 
 
     this.game.ctx.clearRect(0, 0, 1280, 720)
-    this.drawImage(this.game.ctx, this.pacMan)
+
+    this.drawPacMan(this.game.ctx, this.pacMan, this.time)
 
     var x = Math.floor(this.pacMan.positionX / 25)
     var y = Math.floor(this.pacMan.positionY / 25)
     if (this.diamondsMap[x][y] == 2) {
     	this.diamondsMap[x][y] = 0
-    	this.game.backgroundCtx.clearRect(x * 25, y * 25, 25, 25)
+    	//this.game.backgroundCtx.clearRect(x * 25, y * 25, 25, 25)
+      this.game.backgroundCtx.fillRect(x * 25, y * 25, 25, 25);
     	this.beanNumber--
     	if (this.beanNumber == 0) {
     		this.game.scene = new SceneEnd(this.game, true)
@@ -87,6 +115,9 @@ class Scene {
     			break 
     		}
     	}
+    }
+    if (this.time == 60) {
+      this.time = 1
     }
 	}
 }

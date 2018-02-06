@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Boom</title>
+  <style type="text/css">
+    #game-screen{
+      border: 1px solid black;
+    }
+
+    .game-wrap{
+    	position: relative;
+    }
+
+  </style>
+</head>
+
+<body>
+	<div class = "game-wrap">
+  	<canvas id = "game-screen" width = "800px" height = "500px"></canvas>
+  </div>
+  <script>
+
+    function __main(){
+      screen = document.getElementById('game-screen')
+      ctx = screen.getContext('2d')
+      pacMan = {
+      	'img1' : new Image,
+      	'img2' : new Image,
+      	'x' : 0,
+      	'y' : 0,
+      	'speech' : 1
+      }
+      pacMan.img1.src = '1.png'
+      pacMan.img2.src = '2.png'
+      time = 0
+      img = 'img1'
+
+      pacMan.img2.onload = function(){
+      	setInterval(function(){
+      		ctx.clearRect(0, 0, 800, 500)
+      		if (((time++) % 10) == 0) {
+      			if (img == 'img1') {
+      				img = 'img2' 
+      			} else {
+      				img = 'img1'
+      			}
+      		}      		
+      		if (pacMan.x == 800) {
+      			pacMan.x = 0
+      		}
+      		ctx.drawImage(pacMan[img], pacMan.x++, pacMan.y)
+      	}, 1000/30)
+      }
+    }
+
+    __main()
+  </script>
+</body>
+</html>

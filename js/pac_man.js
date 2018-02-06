@@ -1,8 +1,12 @@
 class PacMan {
 
   constructor(pic, x = 27, y = 25){
-    this.img = pic
+    //this.img = pic
     //this.img.src = 'ball.png'
+    this.img = {}
+    this.imgLib = {}
+    this.state = 0
+    this.__initImg()
     this.positionX = x
     this.positionY = y
     this.width = 20 
@@ -14,6 +18,40 @@ class PacMan {
       'left': false,
       'right': true
     }
+  }
+
+  __initImg(){
+    this.imgLib = {
+      'top': new Array,
+      'bottom': new Array,
+      'left': new Array,
+      'right': new Array
+    }
+    let img = new Image()
+    img.src = 'img/pac-up0.png'
+    this.imgLib['top'][0] = img
+    img = new Image()
+    img.src = 'img/pac-up1.png'
+    this.imgLib['top'][1] = img
+    img = new Image()
+    img.src = 'img/pac-bottom0.png'
+    this.imgLib['bottom'][0] = img
+    img = new Image()
+    img.src = 'img/pac-bottom1.png'
+    this.imgLib['bottom'][1] = img
+    img = new Image()
+    img.src = 'img/pac-left0.png'
+    this.imgLib['left'][0] = img
+    img = new Image()
+    img.src = 'img/pac-left1.png'
+    this.imgLib['left'][1] = img
+    img = new Image()
+    img.src = 'img/pac-right0.png'
+    this.imgLib['right'][0] = img
+    img = new Image()
+    img.src = 'img/pac-right1.png'
+    this.imgLib['right'][1] = img
+    this.img = this.imgLib.right
   }
 
   move(map, control){
@@ -65,5 +103,6 @@ class PacMan {
       'right': false           
     }
     this.direction[nowdirection] = true
+    this.img = this.imgLib[nowdirection]
   }
 }
