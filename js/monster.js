@@ -6,12 +6,15 @@
         //this.img.src = 'qq.png'
         this.img = {}
         this.imgLib = {}
-        this.__initImg()
+        this.imgLib = pic
+        this.img = this.imgLib.right        
+        //this.__initImg()
         this.positionX = x
         this.positionY = y
         this.width = 24 
         this.height = 24
         this.speech = 1
+        this.monsterSpeech = 3
         this.direction = {
           'top': false,
           'bottom': false,

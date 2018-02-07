@@ -24,23 +24,45 @@ class Game{
   }
 
   gameStart(pictures) {
-    var loads = []
+    var loads = 0
+    var imgNumber = 0
     // 预先载入所有图片
     var names = Object.keys(pictures)
     var that = this
     for (let i = 0; i < names.length; i++) {
-        let name = names[i]
-        var path = pictures[name]
-        let img = new Image()
-        img.src = path
-        img.onload = function() {
-            that.images[name] = img
-            // 所有图片都成功载入之后, 调用 run
-            loads.push(1)
-            if (loads.length == names.length) {
+      if (!(pictures[names[i]] instanceof Array)) {
+        for (let key in pictures[names[i]]) {
+          for (let j = 0; j < pictures[names[i]][key].length; j++) {
+            let path = pictures[names[i]][key][j]
+            let img = new Image()
+            img.src = path
+            pictures[names[i]][key][j] = img
+            imgNumber++
+            img.onload = function() {
+              loads++
+              if (loads == imgNumber) {
+                that.images = pictures
                 that.refresh()
+              }
             }
+          }
         }
+      } else {
+        for (let j = 0; j < pictures[names[i]].length; j++) {
+          let path = pictures[names[i]][j]
+          let img = new Image()
+          img.src = path
+          pictures[names[i]][j] = img
+          imgNumber++
+          img.onload = function() {
+            loads++
+            if (loads == imgNumber) {
+              that.images = pictures
+              that.refresh()
+            }
+          }
+        }
+      }
     }
   }
 

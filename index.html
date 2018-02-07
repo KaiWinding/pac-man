@@ -38,15 +38,24 @@
   <script>
 
     function __main(){
-      var images = {
-        monster: 'img/qq.png',
-        pacMan: 'img/ball.png',
-        wall: 'img/brick.png',
-        bean: 'img/bean.png'
-      }
+        var imagesLib = {
+          monster: {
+            'top': ['img/monster-up.png'],
+            'bottom': ['img/monster-down.png'],
+            'left': ['img/monster-left.png'],
+            'right': ['img/monster-right.png']
+          },
+          pacMan: {
+            'top': ['img/pac-up0.png', 'img/pac-up1.png'],
+            'bottom': ['img/pac-bottom0.png', 'img/pac-bottom1.png'],
+            'left': ['img/pac-left0.png', 'img/pac-left1.png'],
+            'right': ['img/pac-right0.png', 'img/pac-right1.png']
+          },
+          wall: ['img/brick.png'],
+          bean: ['img/bean.png']    
+        }
       var game = new Game
-      game.gameStart(images)
-      //game.refresh()
+      game.gameStart(imagesLib)
     }
 
     __main()
