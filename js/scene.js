@@ -19,7 +19,7 @@ class Scene {
     this.__initialize(this)
     this.pacMan = new PacMan(this.game.images.pacMan)
 	}
-	//注册该场景的按键控制到game
+	//注册该场景的按键控制到game,并添加音乐
 	__initialize(scene,g) {
     let newMusic = new Audio
     newMusic.src = 'music/gaming.mp3'
@@ -28,6 +28,7 @@ class Scene {
     newMusic.src = 'music/game-over-1.mp3'
     this.music['gameOver'] = newMusic
 		scene.time = 0
+    //初始背景并设置音乐
     this.drawBackground()
     this.game.registerAction('a', function(){
       scene.pacMan.move(scene.map, 'left')
@@ -41,8 +42,15 @@ class Scene {
     this.game.registerAction('d', function(){
       scene.pacMan.move(scene.map, 'right')
     })
-    this.game.registerAction('h', function(){
-      scene.game.pause = !scene.game.pause
+    //this.game.registerAction('h', function(){
+    //  scene.game.pause = !scene.game.pause
+    //})
+    window.addEventListener('keydown', function(event){
+      var k = event.key
+      if (k == 'h') {
+        // 暂停功能
+        scene.game.pause = !scene.game.pause
+      } 
     })
 	}
 
@@ -119,10 +127,6 @@ class Scene {
   }
 
 	upDate() {
-    //第一次进入游戏，在背景canvas上画出迷宫图
-    if (this.time == 0) {
-      //this.drawBackground()
-    } 
     this.time++
     //游戏开始50time后，门关闭，增加门图片（只执行一次）
     if ((this.time > 50) && (!this.closeDoor)) {
@@ -135,6 +139,8 @@ class Scene {
 
     if (this.beanNumber !== 0) {
       this.updateMonster()
+    } else {
+      console.log('you win !!')      
     }
 
     if (this.time == 60) {

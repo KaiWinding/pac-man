@@ -1,6 +1,6 @@
 class PacMan {
 
-  constructor(pic, x = 27, y = 25){
+  constructor(pic = {}, x = 27, y = 25){
     this.img = {}
     this.imgLib = pic
     this.state = 0
@@ -31,8 +31,6 @@ class PacMan {
       'left': true,
       'right': true
     }
-    //这一段的作用是判定逻辑2，使用一个数组moveDireciton来存储怪兽下一帧可运行的方向，这里的判定方法是在各个方向上加上速度获得怪兽下一帧往这一方向运动的位置，将位置参数与map数组即地图参数比较，若该位置有墙壁即说明不可向该方向运动
-    var moveDirection = {}
     for (let key in this.direction) {
       if (this.direction[key]) {
         switch(key) {

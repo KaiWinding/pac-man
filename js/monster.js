@@ -1,14 +1,10 @@
     //怪物类，吃豆人中的怪物
     class Monster {
 
-      constructor(pic, x = 11 * 25, y = 9 * 25) {
-        //this.img = pic
-        //this.img.src = 'qq.png'
+      constructor(pic = {}, x = 11 * 25, y = 9 * 25) {
         this.img = {}
-        this.imgLib = {}
         this.imgLib = pic
         this.img = this.imgLib.right        
-        //this.__initImg()
         this.positionX = x
         this.positionY = y
         this.width = 24 
@@ -21,28 +17,6 @@
           'left': false,
           'right': true
         }
-      }
-
-      __initImg() {
-        this.imgLib = {
-          'top': new Array,
-          'bottom': new Array,
-          'left': new Array,
-          'right': new Array
-        }   
-        let img = new Image()
-        img.src = 'img/monster-up.png'
-        this.imgLib.top = img
-        img = new Image()
-        img.src = 'img/monster-right.png'
-        this.imgLib.right = img
-        img = new Image()
-        img.src = 'img/monster-left.png'
-        this.imgLib.left = img
-        img = new Image()
-        img.src = 'img/monster-down.png'
-        this.imgLib.bottom = img
-        this.img = this.imgLib.bottom
       }
       //怪兽的每一帧的运动方法，目前的设定要遵守的逻辑是：1.怪兽不会180度转向；2.怪兽不能撞墙；3.当怪兽遇到多个可运动方向时，随机选择一个方向移动；4.怪兽只有四个移动方向，分别是上下左右；
       move(map) {
@@ -85,7 +59,7 @@
         }
         //将剩下可运动的方向进行一个随机选择，获得下一帧怪兽运动的方向
         if (moveDirection.length > 1) {
-          for (let i = 0; i < moveDirection.length; i++){
+          for (let i = 0; i < moveDirection.length; i++) {
             this.direction[moveDirection[i]] = false
           }
           var randomDirection = Math.floor(Math.random() * moveDirection.length + 0)

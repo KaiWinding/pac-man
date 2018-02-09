@@ -72,7 +72,6 @@ class Game{
     var that = this
 
     setInterval(function(){
-      var thisGame = that
       for (let key in that.action) {
         if (that.keyBoard[key]) {
         that.action[key]()
