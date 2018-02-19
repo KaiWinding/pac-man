@@ -10,14 +10,23 @@ class Game{
     this.backgroundCtx = background.getContext('2d')
     this.pause = false
     this.images = {}
+    this.__init()
+  }
+
+  __init() {
     var that = this
     window.addEventListener('keydown',function(event){
-      that.keyBoard[event.key] = true
+      let k = event.key
+      that.keyBoard[k] = true
+      if (k == 'h') {
+        that.pause = !that.pause
+      }
     })
     window.addEventListener('keyup',function(event){
       that.keyBoard[event.key] = false
     })
   }
+
   //注册按键事件
   registerAction(keyword, callback) {
     this.action[keyword] = callback

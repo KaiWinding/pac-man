@@ -4,19 +4,44 @@
   <meta charset="UTF-8">
   <title>Boom</title>
   <style type="text/css">
-    #game-screen{
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #game-screen {
+      box-sizing: border-box;
       border: 1px solid black;
     }
 
-    .game-wrap{
+    .game-wrap {
     	position: relative;
     }
 
-    #game-background{
+    #game-background {
     	position: absolute;
     	z-index: -100;
     	top: 0;
     	left: 0;
+    }
+
+    .infor-board {
+      position: absolute;
+      margin: 20px 10px;
+      left: 550px;
+      top: 0;
+      height: 415px;
+      background-color: red;
+    }
+
+    .start-interface {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 801px;
+      height: 476px;
+      background-image: url('img/start.jpg');
     }
   </style>
   <script src = "js/scene.js"></script>
@@ -28,12 +53,23 @@
   <script src = "js/bean.js"></script>
   <script src = "js/scene_end.js"></script>
   <script src = "js/pac_man.js"></script>
+  <script src = "js/boom.js"></script>
 </head>
 
 <body>
 	<div class = "game-wrap">
-	  <canvas id = "game-background" width = "800px" height = "500px"></canvas>
-  	<canvas id = "game-screen" width = "800px" height = "500px"></canvas>
+    <div class = "start-interface">
+      <div>
+        <p>开始游戏</p>
+        <p>游戏说明</p>
+      </div>
+    </div>
+	  <canvas id = "game-background" width = "800px" height = "475px"></canvas>
+  	<canvas id = "game-screen" width = "800px" height = "475px"></canvas>
+    <div class = "infor-board">
+      <p>剩余生命: <span class = "pacMan-hp">0</span></p>
+      <p>分数: <span class = "score">---</span></p>
+    </div>
   </div>
   <script>
 

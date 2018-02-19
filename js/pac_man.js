@@ -10,12 +10,17 @@ class PacMan {
     this.width = 20 
     this.height = 20
     this.speech = 5
+    this.hp = document.getElementsByClassName('pacMan-hp')[0].firstChild
+    this.__init()
     this.direction = {
       'top': false,
       'bottom': false,
       'left': false,
       'right': true
     }
+  }
+
+  __init() {
   }
 
   move(map, control){
