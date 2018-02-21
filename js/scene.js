@@ -11,7 +11,7 @@ class Scene {
 		this.wallList = twoMap.wallList
     if (this.time == 0) {
       this.score.nodeValue = 0
-      this.pacMan.hp.nodeValue = 3
+      this.pacMan.hp.nodeValue = 1
       this.diamondsMap = twoMap.diamondsMap
     }	else {
       this.diamondsMap = oldMap

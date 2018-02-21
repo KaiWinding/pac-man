@@ -27,22 +27,88 @@
 
     .infor-board {
       position: absolute;
-      margin: 20px 10px;
       left: 550px;
       top: 0;
+      margin: 10px;
+      padding: 20px 0;
+      width: 130px;
       height: 415px;
-      background-color: red;
+      background-color: inherit;
+    }
+
+    .infor-board p {
+      margin: 10px 0;
+      padding-left: 3px;
+      line-height: 1.8;
+      border-radius: 5px;
+      border: 2px solid orange;
+      box-shadow: 0px 0px 10px #e2e2e2;
     }
 
     .start-interface {
+      visibility: hidden;
       position: absolute;
       top: 0;
       left: 0;
       z-index: 100;
-      width: 801px;
+      width: 701px;
       height: 476px;
       background-image: url('img/start.jpg');
     }
+
+    .end-interface {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 701px;
+      height: 476px;
+      background-image: url('img/end.jpg');
+      color: rgb(233,233,216);
+      font-size: 20px;   
+      padding-top: 60px;
+      padding-left: 60px; 
+    }
+
+    .select-box {
+      position: absolute;
+      font-size: 16px;
+      color: rgb(233,233,216);
+      top: 100px;
+      left: 15px;
+      text-align: center;
+    }
+
+    .select-box p {
+      line-height: 1.5;
+    }
+
+    .select-box>p:first-child {
+      cursor: pointer;
+    }
+
+    .select-box>p:nth-child(2) {
+      cursor: pointer;
+    }
+
+    .select-box>p:nth-child(3) img {
+      display: inline-block;
+      vertical-align: -15%;
+    }
+
+    .select-arrow {
+      visibility: hidden;
+    }
+
+    .select-box>p:first-child:hover .select-arrow {
+      visibility: visible;
+    }
+
+    .select-box>p:nth-child(2):hover .select-arrow {
+      visibility: visible;
+    }
+
   </style>
   <script src = "js/scene.js"></script>
   <script src = "js/game.js"></script>
@@ -51,24 +117,32 @@
   <script src = "js/wall.js"></script>
   <script src = "js/monster.js"></script>
   <script src = "js/bean.js"></script>
-  <script src = "js/scene_end.js"></script>
-  <script src = "js/pac_man.js"></script>
+  <script src = "js/scene-end.js"></script>
+  <script src = "js/pac-man.js"></script>
   <script src = "js/boom.js"></script>
+  <script src = "js/scene-begin.js"></script>
 </head>
 
 <body>
 	<div class = "game-wrap">
     <div class = "start-interface">
-      <div>
-        <p>开始游戏</p>
-        <p>游戏说明</p>
+      <div class = "select-box">
+        <p class = "begin-button">开始游戏&nbsp;<img src="img/arrow.png" class="select-arrow" width="16px" alt=""></p>
+        <p>游戏说明&nbsp;<img src="img/arrow.png" class="select-arrow" width="16px" alt=""></p>
+        <p><img src="img/keys.png" width="50px" alt="">&nbsp;控制吃豆人移动</p>
+        <p>鼠标点击或按回车键Start</p>
       </div>
     </div>
-	  <canvas id = "game-background" width = "800px" height = "475px"></canvas>
-  	<canvas id = "game-screen" width = "800px" height = "475px"></canvas>
+	  <canvas id = "game-background" width = "700px" height = "475px"></canvas>
+  	<canvas id = "game-screen" width = "700px" height = "475px"></canvas>
     <div class = "infor-board">
-      <p>剩余生命: <span class = "pacMan-hp">0</span></p>
-      <p>分数: <span class = "score">---</span></p>
+      <p>剩余生命：<span class = "pacMan-hp">0</span></p>
+      <p>分数：<span class = "score">---</span></p>
+      <p>关卡：</p>
+    </div>
+    <div class = "end-interface">
+      <p class = "win-text">游戏胜利！&nbsp;请按&nbsp;r&nbsp;重新开始游戏</p>
+      <p class = "lose-text">游戏失败，&nbsp;请按&nbsp;r&nbsp;重新开始游戏</p>
     </div>
   </div>
   <script>

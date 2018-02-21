@@ -76,7 +76,7 @@ class Game{
   }
 
   refresh() {
-    var scene = new Scene(this)
+    var scene = new SceneBegin(this)
     this.scene = scene
     var that = this
 
