@@ -1,5 +1,5 @@
 # 吃豆人游戏  
-  一款用 canvas 实现的网页吃豆人游戏。
+  一款用 canvas 实现的网页吃豆人游戏。  
   游戏试玩地址：http://htmlpreview.github.io/?https://github.com/KaiWinding/pac-man/blob/master/index.html  
 ***
 js目录下文件的作用  
